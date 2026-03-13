@@ -1,0 +1,33 @@
+const { createContext, useState, useEffect, useContext } = require("react");
+import {useThemeLocalStorage} from '../customHooks/useThemeLocalStorage'
+const ThemeContext = createContext();
+
+
+export const ThemeProvider = ({ children }) => {
+    const [theme, setTheme] = useState('');
+
+    useEffect(() => {
+        let localTheme = typeof window != undefined ? localStorage.getItem("theme") : null;
+        setTheme(localTheme)
+    }, []);
+
+    useEffect(() => {
+        let html = typeof window !== undefined ? window.document.documentElement : null;
+        if (theme === 'dark') {
+            html.classList.add('dark');
+            localStorage.setItem("theme", 'dark')
+        } else {
+            html.classList.remove('dark');
+            localStorage.clear("theme")
+        }
+
+    }, [theme]);
+
+    return <ThemeContext.Provider className="" value={{ theme, setTheme }}>
+        {children}
+    </ThemeContext.Provider>
+}
+
+export const useTheme = () => {
+    return useContext(ThemeContext);
+}
