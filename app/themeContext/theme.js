@@ -14,12 +14,15 @@ export const ThemeProvider = ({ children }) => {
     useEffect(() => {
         let html = typeof window !== undefined ? window.document.documentElement : null;
         if (theme === 'dark') {
+            html.classList.remove('light');
             html.classList.add('dark');
             localStorage.setItem("theme", 'dark')
-        } else {
+        } 
+        if (theme === 'light') {
             html.classList.remove('dark');
-            localStorage.clear("theme")
-        }
+            html.classList.add('light');
+            localStorage.setItem("theme", 'light')
+        } 
 
     }, [theme]);
 

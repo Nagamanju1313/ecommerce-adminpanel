@@ -36,7 +36,7 @@ export async function POST(req){
 
         let result = NextResponse.json({
             status:"SUCCESS",
-            data:"Login Successful!"
+            message:"Login Successful!"
         })
 
         result.cookies.set("token",token, {

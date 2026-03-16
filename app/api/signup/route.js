@@ -56,20 +56,13 @@ export async function POST(req) {
 
         return NextResponse.json({
             status: "SUCCESS",
-            data: {
-                first_name: first_name,
-                last_name: last_name,
-                organization_name: organization_name,
-                user_id: userId,
-                email_id: email_id,
-                password: password
-            }
+            message: "User Registered Successfully!"
         });
 
     } catch (err) {
         return NextResponse.json({
             status: "FAILURE",
-            data: err.message
+            message: err.message
         });
     }
 }

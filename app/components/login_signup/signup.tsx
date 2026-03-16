@@ -2,6 +2,7 @@ import { isEmptyVariable, isValidateEmail } from "@/app/util/util_functions"
 import React, { useState } from "react"
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5"
 import {REGISTER_USER} from '../../url/apiendpoints';
+import { FiLoader } from "react-icons/fi";
 type Props = {
   loginOrlogout: (value: string) => void
 }
@@ -29,7 +30,8 @@ export default function Signup({ loginOrlogout }: Props) {
     create_password: any,
     confirm_password: any,
     errors: FormError,
-    response: ApiResponse
+    response: ApiResponse,
+    loading:boolean
   }
 
   let formErrorState = {
@@ -54,7 +56,9 @@ export default function Signup({ loginOrlogout }: Props) {
     code: 999,
     message: ""
   }
-
+  let loadingState = {
+    loading:false
+  }
   const [state, setState] = useState<FormData>({
     ...formState,
     errors: {
@@ -62,7 +66,8 @@ export default function Signup({ loginOrlogout }: Props) {
     },
     response: {
       ...formResponseState
-    }
+    },
+    ...loadingState
   })
 
   interface passObj {
@@ -141,6 +146,10 @@ export default function Signup({ loginOrlogout }: Props) {
         })
       }, 2000)
     } else {
+      setState({
+        ...state,
+        loading:true
+      })
       let response = await fetch(REGISTER_USER,{
         method:"POST",
         headers:{
@@ -156,7 +165,7 @@ export default function Signup({ loginOrlogout }: Props) {
       });
       type Resp={
         status:string,
-        data: {} | string
+        message: string
       }
       let result : Resp = await response.json()
       
@@ -167,14 +176,13 @@ export default function Signup({ loginOrlogout }: Props) {
             errors:formErrorState,
             response:{
               code:1,
-              message:"Form Submitted Successfully"
-            }
+              message:result.message
+            },
+            loading:false
           }
         )
 
-        setTimeout(()=>{
-          loginOrlogout("login")
-        },4000)
+        loginOrlogout("login")
       }
       if(result?.status === "FAILURE"){
         setState(
@@ -182,8 +190,9 @@ export default function Signup({ loginOrlogout }: Props) {
             ...state,
             response:{
               code:0,
-              message:"There is some error from the server please try again!!"
-            }
+              message:result.message
+            },
+            loading:false
           }
         )
       }
@@ -192,7 +201,8 @@ export default function Signup({ loginOrlogout }: Props) {
         setState({
           ...formState,
             errors:formErrorState,
-            response:formResponseState
+            response:formResponseState,
+            ...loadingState
         })
       },4000)
     }
@@ -322,7 +332,13 @@ export default function Signup({ loginOrlogout }: Props) {
                 "
           onClick={handleSubmit}
         >Signup</button>
-
+        {
+          state?.loading &&
+          <div className="relative top-[-2px] animate-spin w-5 h-5  flex items-center
+          justify-center" >
+            <FiLoader/>
+          </div>
+        }
         {
           (state.response.code === 1 || state.response.code === 0) &&
           <p className={`${state.response.code == 0 ? 'text-red-500' : 'text-green-700'}`}>{state.response.message}</p>

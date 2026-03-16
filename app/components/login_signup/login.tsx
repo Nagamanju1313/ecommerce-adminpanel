@@ -1,5 +1,8 @@
+import { CHECK_LOGIN_USER } from "@/app/url/apiendpoints"
 import { isEmptyVariable, isValidateEmail } from "@/app/util/util_functions"
+import { redirect } from "next/navigation"
 import { useState } from "react"
+import { FiLoader } from "react-icons/fi"
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5"
 
 type Props = {
@@ -22,6 +25,7 @@ export default function Login({loginOrlogout}: Props) {
       password:any
       errors:ErrorState
       response:ApiResponseState
+      loading:boolean
     }
 
     let formState={
@@ -36,6 +40,9 @@ export default function Login({loginOrlogout}: Props) {
       code:999,
       message:""
     }
+    let loadingState = {
+        loading:false
+    }
     const [showPass, setShowPass] = useState<boolean>(false);
     const [formData, setFormData] = useState<FormState>({
       ...formState,
@@ -44,7 +51,8 @@ export default function Login({loginOrlogout}: Props) {
       },
       response:{
         ...responseState
-      }
+      },
+      ...loadingState
     })
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -54,7 +62,7 @@ export default function Login({loginOrlogout}: Props) {
       })
     }
 
-    const handleSubmit = ()=>{
+    const handleSubmit = async()=>{
       let errFlag:boolean=false;
       let errObj:ErrorState = {
         ...errorState
@@ -78,13 +86,57 @@ export default function Login({loginOrlogout}: Props) {
           ...formData,
           errors:{...errObj}
         })
-
         setTimeout(()=>{
           setFormData({
             ...formData,
             errors:errorState
           })
         },2000)
+      }
+      if(!errFlag){
+        setFormData({
+          ...formData,
+          loading:true
+        })
+
+        let response = await fetch(CHECK_LOGIN_USER, {
+          method:"POST",
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify({
+            email_id:formData.email_id,
+            password:formData.password
+          })
+        });
+       
+        let result = await response.json()
+        
+        if(result.status === 'SUCCESS'){
+          setFormData({
+            ...formState,
+            errors:{
+              ...errorState
+            },
+            response:{
+              code:1,
+              message:result.message
+            },
+            ...loadingState
+          });
+
+         redirect('/dashboard')
+          
+        }else{
+          setFormData({
+            ...formData,
+            response:{
+              code:0,
+              message:result.message
+            },
+            ...loadingState
+          })
+        }
       }
       
     }
@@ -141,9 +193,25 @@ export default function Login({loginOrlogout}: Props) {
                 onClick={handleSubmit}
                 >Login</button>
             </div>
+            {
+              formData?.loading &&
+              <div className="relative top-[-10px] animate-spin w-5 h-5  flex items-center
+              justify-center" >
+                <FiLoader/>
+              </div>
+            }
+            {
+              !formData?.loading && formData?.response.code === 0 &&
+              <p className="text-red-500 text-[13px] relative top-[-10px]">{formData?.response.message}</p>
+            }
+            {
+              !formData?.loading && formData?.response.code === 1 &&
+              <p className="text-green-500 text-[13px] relative top-[-10px]">{formData?.response.message}</p>
+            }
+            
             <p className="text-center text-zinc-600 dark:text-zinc-50">Don't have an account ?
               <button className="text-sky-600 dark:text-sky-600 ml-2.5
-                  cursor-pointer hover:text-black dark:hover:text-sky-300
+                  cursor-pointer hover:text-black dark:hover:text-sky-300 
                 "
                   onClick={()=>loginOrlogout('signup')}
                 >Sign Up</button></p>

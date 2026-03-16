@@ -1,8 +1,16 @@
+import { userData } from "@/app/protected";
 import ThemeButton from "@/app/themeContext/themeButton";
 import Image from "next/image";
+import { useState } from "react";
+import { AiOutlineLogout } from "react-icons/ai";
+import { FaChevronDown } from "react-icons/fa";
+import { IoSettingsOutline } from "react-icons/io5";
 
-const Header = ()=>{
-    return(
+const Header = () => {
+    const [userToggle, setUserToggle] = useState(false);
+    const userDetails = userData();
+    
+    return (
         <header className="dark:bg-black theme-box-shadow z-50 relative">
             <div className="lg:container
             md:container 
@@ -14,7 +22,7 @@ const Header = ()=>{
                             src="/logo.png"
                             className="dark:invert"
                             alt="Next.js logo"
-                            />
+                        />
                     </div>
 
                     <div className="menu-dd-wrapper flex gap-10">
@@ -23,6 +31,7 @@ const Header = ()=>{
                                 className="flex items-center gap-2
                             cursor-pointer
                             "
+                            onClick={()=>setUserToggle(!userToggle)}
                             >
                                 <i className="border-2 border-black overflow-hidden rounded-2xl w-[30px] h-[30px]
                         flex items-center justify-center bg-white
@@ -40,21 +49,27 @@ const Header = ()=>{
                                     className="theme-body-text
                                         dark:text-white
                                     "
-                                >Nagaraj</span></button>
-
+                                >Nagaraj</span> <FaChevronDown className="text-[10px]" />
+</button>
+                            {
+                                userToggle &&
                                 <div className="absolute top-10 w-full dark:theme-box-shadow-light theme-box-shadow
-                                    p-2 bg-white dark:bg-black 
+                                    bg-white dark:bg-black 
                                 ">
                                     <button className="theme-body-text dark:text-white
-                                        text-[13px] flex p-1 cursor-pointer w-full
-                                    ">Settings</button>
+                                        text-[13px] flex p-1 cursor-pointer w-full items-center justify-between
+                                        hover:bg-sky-100  p-2
+                                    ">Settings <IoSettingsOutline /></button>
                                     <button className="theme-body-text dark:text-white
-                                        text-[13px] flex p-1 cursor-pointer w-full
-                                    ">Logout</button>
+                                        text-[13px] flex p-1 cursor-pointer w-full items-center justify-between
+                                        hover:bg-sky-100 p-2
+                                    ">Logout <AiOutlineLogout /></button>
                                 </div>
+                            }
+                            
                         </div>
 
-                        <ThemeButton/>
+                        <ThemeButton />
                     </div>
                 </div>
             </div>

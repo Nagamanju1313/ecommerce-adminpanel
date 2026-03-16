@@ -4,14 +4,15 @@ import PageComp from '../themeContext/pageComp';
 import Header from '../components/header';
 import Dashboard from '../components/dashboard';
 import {ProtectedRootProvider} from '../protected';
+import ProductListComp from '../components/product_list';
 
-export default function DashboardPage() {
+export default function ProductListPage() {
   return (
     <ThemeProvider>
       <ProtectedRootProvider>
         {/* <PageComp/> */}
         <Header/>
-        <Dashboard pageName="dashboard"/>
+        <ProductListComp pageName="product-list"/>
       </ProtectedRootProvider>
     </ThemeProvider>
   );
