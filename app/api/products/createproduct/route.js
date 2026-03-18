@@ -4,10 +4,13 @@ import validateCatId from "../../api_utils/product/validatecategory";
 import { checkDuplicate } from "../../api_utils/checkduplicate";
 import { isEmptyArray, isEmptyObject, isEmptyVariable } from "../../../util/util_functions";
 import pool from "../../../lib/db";
+import userAuth from "../../api_utils/userAuthentication";
 
 export async function POST(req) {
     try {
-        let { user_id, product_name, description,
+        const {user_id, email_id} = await userAuth(req.cookies.get('token')?.value);
+        
+        let { product_name, description,
             images, stock_quantity, category_id,
             price, selling_price, product_variants, category_name
         } = await req.json();

@@ -7,6 +7,7 @@ import { CiSearch } from "react-icons/ci";
 import CommonButton from "../common/button";
 import SearchField from "../common/search";
 import Modal from "../common/modal";
+import ProductCard from "./productcard";
 
 type ProductListProps = {
     pageName: string
@@ -39,13 +40,17 @@ const ProductListComp = ({ pageName }: ProductListProps) => {
         (async () => {
             let data = await getProductList(userId);
             if (data?.status === 'SUCCESS') {
-                setData(data?.data)
+                setData(data?.data[0])
             } else {
                 setData([])
             }
         })()
 
     }, [])
+
+    const handleModal = ()=>{
+        setShowModal(!showModal)
+    }
     return <div className="grid grid-cols-6 gap-4 dark:bg-black overflow-hidden">
         <SideBar pageName={pageName} />
         <div className="bg-white col-span-5 dark:bg-black p-10">
@@ -53,12 +58,25 @@ const ProductListComp = ({ pageName }: ProductListProps) => {
                 <CommonButton
                     label="Add Product"
                     icon={<FaPlus />}
+                    btnFnc={handleModal}
                 />
                 <SearchField />
             </div>
             {
+                data&&
                 data.length > 0 ?
-                    data :
+                <div  className="flex flex-wrap w-full gap-3 justify-between mt-10">
+               {
+                 data.map((item, idx)=>{
+                    return <div key={"idx"+idx} className="mb-5 w-[23%] theme-box-shadow
+                        p-5
+                    ">
+                        <ProductCard/>
+                        </div>
+                })
+               }
+                 </div>
+                :
                     <div className="">
                         <h3>Data Not Found</h3>
                     </div>
