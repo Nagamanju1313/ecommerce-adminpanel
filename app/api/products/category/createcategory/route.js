@@ -1,17 +1,17 @@
 import { NextResponse } from "next/server";
-import { isEmptyVariable } from "../../../util/util_functions";
-import { checkDuplicate } from "../../api_utils/checkduplicate";
-import checkUser from "../../api_utils/user/checkuser";
-import userAuth from "../../api_utils/userAuthentication";
+import { isEmptyVariable } from "../../../../util/util_functions";
+import { checkDuplicate } from "../../../api_utils/checkduplicate";
+import checkUser from "../../../api_utils/user/checkuser";
+import userAuth from "../../../api_utils/userAuthentication";
 
 export async function POST(req) {
     try {
         const {user_id, email_id} = await userAuth(req.cookies.get('token')?.value);
 
         let { category_name } = await req.json();
-
+        
         let [user] = await checkUser(user_id);
-
+        
         if (isEmptyVariable(category_name)) {
             throw new Error("category_name must be supplied")
         }
@@ -25,7 +25,7 @@ export async function POST(req) {
 
         return NextResponse.json({
             status: "SUCCESS",
-            data: [],
+            data: insertedData,
             message: "Data inserted successfully"
         })
     } catch (err) {

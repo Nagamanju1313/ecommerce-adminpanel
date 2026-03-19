@@ -10,7 +10,7 @@ export async function POST(req) {
 
         let user = await checkUser(user_id);
 
-        let [products] = await pool.query(`SELECT * FROM products p
+        let products = await pool.query(`SELECT * FROM products p
             LEFT JOIN product_types pt
             ON p.product_id = pt.product_id
             LEFT JOIN product_categories pc
