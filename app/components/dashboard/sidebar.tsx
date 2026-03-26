@@ -10,19 +10,29 @@ const SideBar = ({pageName}:SidebarProps) => {
         <ul className="w-full h-[100%] mt-10">
             <li className="w-full">
                 <Link href="/dashboard"
-                className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left">Dashboard</Link>
+                className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left"
+                style={pageName==="dashboard" ? {backgroundColor:'#333', color:"#FFF"} : {}}
+                >Dashboard</Link>
             </li>
             <li className="w-full">
-                <Link href="/product-list" className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left">Product List</Link>
+                <Link href="/product-list" className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left"
+                style={pageName==="product-list" ? {backgroundColor:'#333', color:"#FFF"} : {}}
+                >Product List</Link>
             </li>
             <li className="w-full">
-                <Link href="/categories-list" className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left">Categories List</Link>
+                <Link href="/categories-list" className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left"
+                style={pageName==="categories-list" ? {backgroundColor:'#333', color:"#FFF"} : {}}
+                >Categories List</Link>
             </li>
             <li className="w-full">
-                <Link href="/orders-list" className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left">Orders List</Link>
+                <Link href="/orders-list" className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left"
+                style={pageName==="orders-list" ? {backgroundColor:'#333', color:"#FFF"} : {}}
+                >Orders List</Link>
             </li>
             <li className="w-full">
-                <Link href="/users-list" className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left">Users List</Link>
+                <Link href="/users-list" className="w-full p-2 px-5 cursor-pointer block hover:bg-sky-500 hover:text-white text-left"
+                style={pageName==="users-list" ? {backgroundColor:'#333', color:"#FFF"} : {}}
+                >Users List</Link>
             </li>
         </ul>
     </div>

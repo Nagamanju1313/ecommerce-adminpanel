@@ -9,3 +9,6 @@ export const UPDATE_PASSWORD = BASE_API_URL+'/api/updatepassword';
 
 
 export const GET_PRODUCTLIST = BASE_API_URL+'/api/products/getproductlist';
+
+//DASHBOARD
+export const GET_DASHBOARD = BASE_API_URL+'/api/dashboard';

@@ -27,6 +27,14 @@
   .theme-box-shadow-light{
     box-shadow: rgb(255, 255, 255) 0px 2px 8px 0px;
   }
+  .modal-form input{
+    padding:5px 10px;
+    border:1px solid #ddd;
+    width: 100%;
+  }
+  .form-col{
+    padding:10px 10px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

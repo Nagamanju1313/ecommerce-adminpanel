@@ -11,7 +11,7 @@ export default function OrdersList(){
           <ProtectedRootProvider>
             {/* <PageComp/> */}
             <Header/>
-            <OrderListComp pageName="product-list"/>
+            <OrderListComp pageName="orders-list"/>
           </ProtectedRootProvider>
         </ThemeProvider>
 }

@@ -1,5 +1,4 @@
 const { createContext, useState, useEffect, useContext } = require("react");
-import {useThemeLocalStorage} from '../customHooks/useThemeLocalStorage'
 const ThemeContext = createContext();
 
 

@@ -11,7 +11,7 @@ export default function UsersList(){
           <ProtectedRootProvider>
             {/* <PageComp/> */}
             <Header/>
-            <UserListComp pageName="product-list"/>
+            <UserListComp pageName="users-list"/>
           </ProtectedRootProvider>
         </ThemeProvider>
 }

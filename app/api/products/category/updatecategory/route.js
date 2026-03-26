@@ -24,7 +24,7 @@ export async function POST(){
         return NextResponse.json({
             status:"FAILURE",
             data:[],
-            message:"Data not retrieved successfully"
+            message:err.message
         })
     }
 }

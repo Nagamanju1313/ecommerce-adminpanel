@@ -12,6 +12,7 @@ import ProductCard from "./productcard";
 type ProductListProps = {
     pageName: string
 }
+
 const ProductListComp = ({ pageName }: ProductListProps) => {
     type ProductList = {
         status: string,
@@ -50,7 +51,8 @@ const ProductListComp = ({ pageName }: ProductListProps) => {
 
     const handleModal = ()=>{
         setShowModal(!showModal)
-    }
+    };
+    
     return <div className="grid grid-cols-6 gap-4 dark:bg-black overflow-hidden">
         <SideBar pageName={pageName} />
         <div className="bg-white col-span-5 dark:bg-black p-10">
@@ -83,7 +85,9 @@ const ProductListComp = ({ pageName }: ProductListProps) => {
             }
             {
                 showModal &&
-                <Modal setShow={setShowModal}/>
+                <Modal setShow={setShowModal}
+                    heading={"Create Product"}
+                />
             }
         </div>
     </div>
